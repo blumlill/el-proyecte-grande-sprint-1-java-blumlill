@@ -1,0 +1,24 @@
+version: "3"
+services:
+  db:
+    image: postgres@sha256:58a4e7ae605e8e247180ebba1cc3758ab20677e9a5221ab3150a74f47938b8a1
+    container_name: spaceship-app-db
+    environment:
+      POSTGRES_USER: spaceship
+      POSTGRES_PASSWORD: to_1nf1n1ty_And_Bey0nd
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  backend:
+    build: .
+    container_name: spaceship-app-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/spaceship
+      SPRING_DATASOURCE_USERNAME: spaceship
+      SPRING_DATASOURCE_PASSWORD: to_1nf1n1ty_And_Bey0nd
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+volumes:
+  pgdata:
