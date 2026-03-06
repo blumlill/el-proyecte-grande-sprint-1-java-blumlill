@@ -1,12 +1,12 @@
-FROM node:18.16.0-slim@sha256:8463e2d7bacf0cb576453a0ea8425f3b3c87fa9dd5c8a84ab1908cfd407f3edd as frontend-build
+FROM node:20-slim as frontend-build
 COPY . /project
-WORKDIR /project/frontend
+WORKDIR /project/client
 RUN npm ci
 RUN npm run build
 
 FROM maven:3.9.1-eclipse-temurin-17-alpine@sha256:2bda441f6ad8c4d3185ac7331be3f14528c49c51435e11acf94dce5402a98497 AS backend-builder
 COPY --from=frontend-build /project/src /project/src
-COPY --from=frontend-build /project/frontend/build /project/src/main/resources/public
+COPY --from=frontend-build /project/client/dist /project/src/main/resources/public
 COPY --from=frontend-build /project/pom.xml /project/pom.xml
 WORKDIR /project
 RUN mvn clean package -DskipTests

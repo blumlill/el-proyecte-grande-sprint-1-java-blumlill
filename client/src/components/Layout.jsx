@@ -2,7 +2,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import { NotificationProvider } from "./notifications/NotificationContext";
 import Notifications from "./notifications/Notifications";
@@ -14,7 +14,7 @@ const Layout = () => {
 
   useEffect(() => {
     if (jwtCookie) {
-      setUser(jwt_decode(jwtCookie));
+      setUser(jwtDecode(jwtCookie));
     }
   }, [jwtCookie, update]);
 
