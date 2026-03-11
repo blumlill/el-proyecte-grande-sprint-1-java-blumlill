@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import "./Header.css";
 import useHandleFetchError from "../hooks/useHandleFetchError";
 import { useNotificationsDispatch } from "./notifications/NotificationContext";

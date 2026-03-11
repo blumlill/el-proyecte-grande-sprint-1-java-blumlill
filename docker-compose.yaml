@@ -1,13 +1,17 @@
-version: "3"
 services:
   db:
-    image: postgres@sha256:58a4e7ae605e8e247180ebba1cc3758ab20677e9a5221ab3150a74f47938b8a1
+    image: postgres:15-alpine
     container_name: spaceship-app-db
     environment:
       POSTGRES_USER: spaceship
       POSTGRES_PASSWORD: to_1nf1n1ty_And_Bey0nd
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U spaceship" ]
+      interval: 500ms
+      timeout: 3s
+      retries: 60
   backend:
     build: .
     container_name: spaceship-app-backend
@@ -19,6 +23,7 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 volumes:
   pgdata:

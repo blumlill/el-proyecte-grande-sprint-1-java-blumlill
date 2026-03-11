@@ -27,8 +27,9 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/static/**", "/index.html", "/*.ico", "/*.png",
-                        "/*.json", "/*.svg", "/*xml", "/*.webmanifest", "api/v1/auth/**").permitAll()
+                .requestMatchers("/", "/static/**", "/assets/**", "/index.html", "/*.ico", "/*.png",
+                        "/*.json", "/*.svg", "/*xml", "/*.webmanifest", "api/v1/auth/**")
+                .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
